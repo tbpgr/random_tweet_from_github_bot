@@ -61,7 +61,7 @@ end
 def random_advertise(bot, twitter_id, tweet)
   return if twitter_id == ENV['TWITTER_ID']
   return if tweet.include?('@')
-  return if rand > 0.1
+  return if rand > (ENV['PROBABILITY'].to_f)
   bot.tweet("#{RandomTweet::MESSAGES.sample} \n#{current_time}")
 end
 
