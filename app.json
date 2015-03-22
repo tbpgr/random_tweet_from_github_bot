@@ -1,0 +1,29 @@
+{
+  "description": "Random Tweet From GitHub",
+  "env": {
+      "TWITTER_CONSUMER_KEY": {
+        "description": "your twitter consumer key."
+      }, 
+      "TWITTER_CONSUMER_SECRET": {
+        "description": "your twitter consumer secret."
+      }, 
+      "TWITTER_ACCESS_TOKEN": {
+        "description": "your twitter access token."
+      }, 
+      "TWITTER_ACCESS_TOKEN_SECRET": {
+        "description": "your twitter access token secret."
+      }, 
+      "TWITTER_ID": {
+        "description": "your twitter id."
+      }, 
+      "ARTICLE_REPOSITORY": {
+        "description": "your github ripository."
+      }, 
+      "PROBABILITY": {
+        "description": "random tweet probability(0.1 - 1.0)."
+      }
+  },
+  "keywords": [
+    "github"
+  ],
+}

@@ -52,7 +52,7 @@ def current_time
   DateTime.now.strftime('%Y/%m/%d %H:%M:%S')
 end
 
-module RandomTweet
+def message
   encoded_tweet = Octokit.contents(ENV['ARTICLE_REPOSITORY'], :path => 'tweet.yml')
   decoded_tweet = Base64.decode64(encoded_tweet.attrs[:content])
   YAML.load(decoded_tweet) 
@@ -62,7 +62,7 @@ def random_advertise(bot, twitter_id, tweet)
   return if twitter_id == ENV['TWITTER_ID']
   return if tweet.include?('@')
   return if rand > (ENV['PROBABILITY'].to_f)
-  bot.tweet("#{RandomTweet::MESSAGES.sample} \n#{current_time}")
+  bot.tweet("#{message.sample} \n#{current_time}")
 end
 
 bot = RandomTweetFromGitHubBot.new
