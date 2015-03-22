@@ -21,6 +21,10 @@
       }, 
       "PROBABILITY": {
         "description": "random tweet probability(0.1 - 1.0)."
+      },
+      "TZ": {
+        "description": "Timezone.",
+        "value": "Asia/Tokyo"
       }
   },
   "keywords": [
