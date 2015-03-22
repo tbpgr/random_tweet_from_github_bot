@@ -8,6 +8,7 @@ PROBABILITY は呟く確率です。
 TL にメッセージが届くたびに PROBABILITY * 100 % の確率で呟きます。
 
 |key|value|
+|:--|:--|
 |TWITTER_CONSUMER_KEY|your twitter consumer key|
 |TWITTER_CONSUMER_SECRET|your twitter consumer secret|
 |TWITTER_ACCESS_TOKEN|your twitter access token|
