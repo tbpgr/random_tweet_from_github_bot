@@ -16,6 +16,7 @@ class RandomTweetFromGitHubBot
     Dotenv.load
     @client = new_tweet_client_instance
     @stream_client = new_teetstreem_client_instance
+    @message = load_message
   end
 
   def tweet(text)
@@ -23,6 +24,12 @@ class RandomTweetFromGitHubBot
   end
 
   private
+
+  def load_message
+    encoded_tweet = Octokit.contents(ENV['ARTICLE_REPOSITORY'], :path => 'tweet.yml')
+    decoded_tweet = Base64.decode64(encoded_tweet.attrs[:content])
+    YAML.load(decoded_tweet) 
+  end
 
   def new_tweet_client_instance
     Twitter::REST::Client.new { |config|auth(config) }
@@ -52,17 +59,11 @@ def current_time
   DateTime.now.strftime('%Y/%m/%d %H:%M:%S')
 end
 
-def message
-  encoded_tweet = Octokit.contents(ENV['ARTICLE_REPOSITORY'], :path => 'tweet.yml')
-  decoded_tweet = Base64.decode64(encoded_tweet.attrs[:content])
-  YAML.load(decoded_tweet) 
-end
-
 def random_advertise(bot, twitter_id, tweet)
   return if twitter_id == ENV['TWITTER_ID']
   return if tweet.include?('@')
   return if rand > (ENV['PROBABILITY'].to_f)
-  bot.tweet("#{message.sample} \n#{current_time}")
+  bot.tweet("#{@message.sample} \n#{current_time}")
 end
 
 bot = RandomTweetFromGitHubBot.new
