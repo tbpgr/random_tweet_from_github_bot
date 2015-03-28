@@ -38,7 +38,9 @@ TL にメッセージが届くたびに PROBABILITY * 100 % の確率で呟き�
 |ARTICLE_REPOSITORY|github repository name. ex) tbpgr/qiita_favorite_articles|
 |PROBABILITY|0.1|
 
-## :cloud: このプロジェクトを Fork 後、 Heroku にサインインした状態で以下からデプロイ可能です
+## :cloud: デプロイ
+このプロジェクトを Fork 後、 Heroku にサインインした状態で以下からデプロイ可能です
+
 <a href="https://heroku.com/deploy">
   <img src="https://www.herokucdn.com/deploy/button.png" alt="Deploy">
 </a>
