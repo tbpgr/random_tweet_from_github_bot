@@ -2,7 +2,6 @@
 
 require 'dotenv'
 require 'twitter'
-require 'tweetstream'
 require 'date'
 require "yaml"
 require "octokit"
@@ -23,6 +22,13 @@ class RandomTweetFromGitHubBot
     @client.update(text)
   end
 
+  def random_advertise(twitter_id, tweet)
+    return if twitter_id == ENV['TWITTER_ID']
+    return if tweet.include?('@')
+    return if rand > (ENV['PROBABILITY'].to_f)
+    tweet("#{@message.sample} \n#{current_time}")
+  end
+
   private
 
   def load_message
@@ -36,14 +42,7 @@ class RandomTweetFromGitHubBot
   end
 
   def new_teetstreem_client_instance
-    TweetStream.configure do |config|
-      config.consumer_key        = ENV["TWITTER_CONSUMER_KEY"]
-      config.consumer_secret     = ENV["TWITTER_CONSUMER_SECRET"]
-      config.oauth_token         = ENV["TWITTER_ACCESS_TOKEN"]
-      config.oauth_token_secret  = ENV["TWITTER_ACCESS_TOKEN_SECRET"]
-      config.auth_method         = :oauth
-    end
-    TweetStream::Client.new
+    ::Twitter::Streaming::Client.new { |config|auth(config) }
   end
 
   def auth(config)
@@ -59,23 +58,8 @@ def current_time
   DateTime.now.strftime('%Y/%m/%d %H:%M:%S')
 end
 
-def random_advertise(bot, twitter_id, tweet)
-  return if twitter_id == ENV['TWITTER_ID']
-  return if tweet.include?('@')
-  return if rand > (ENV['PROBABILITY'].to_f)
-  bot.tweet("#{@message.sample} \n#{current_time}")
-end
-
 bot = RandomTweetFromGitHubBot.new
-bot.stream_client.on_timeline_status do |status|
-  begin
-    twitter_id = status.user.screen_name
-    tweet = status.text
-    random_advertise(bot, twitter_id, tweet)
-  rescue => e
-    bot.tweet "bad request #{current_time}"
-  end
-end
-
-bot.stream_client.userstream  do |tweet|
+bot.stream_client.user do |message|
+  next unless message.is_a?(::Twitter::Tweet)
+  bot.random_advertise(message.attrs[:name], message.text)
 end
